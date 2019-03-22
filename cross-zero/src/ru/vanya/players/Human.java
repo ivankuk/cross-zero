@@ -1,32 +1,28 @@
 package ru.vanya.players;
 import ru.vanya.view.board.Board;
+import ru.vanya.control.*;
 
 public class Human {
 
-    private final Board BOARD = new Board();
+    private static final Board BOARD = new Board();
 
-    private final int MIN_COORDINATE = 0;
+    private static final char FIGURE = new Figure('O');
 
-    private final int MAX_COORDINATE = BOARD.AN_ARRAY_OF_CELLS.length - 1;
+    private static final ControllerGame CONTROLLER_GAME = new ControllerGame();
 
-    private final char FIGURE = 'X';
+    private static boolean move(final int COORDINATE_X, final int COORDINATE_Y) {
 
-    private boolean checkCoordinate(final int NEW_COORDINATE) {
+        if (CONTROLLER_GAME.checkCoordinate(COORDINATE_X) | CONTROLLER_GAME.checkCoordinate(COORDINATE_Y)) {
 
-        if (NEW_COORDINATE >= MIN_COORDINATE | NEW_COORDINATE <= MAX_COORDINATE) return true;
+            if (CONTROLLER_GAME.cellCheck(COORDINATE_X, COORDINATE_Y)) {
 
-        return false;
-    }
+                while (true) {
 
-    private boolean move(final int COORDINATE_X, final int COORDINATE_Y) {
+                  BOARD.setFigure(COORDINATE_X, COORDINATE_Y, FIGURE);
 
-        if (checkCoordinate(COORDINATE_X) | checkCoordinate(COORDINATE_Y)) {
+                  return true;
 
-            if (BOARD.AN_ARRAY_OF_CELLS[COORDINATE_X][COORDINATE_Y] == BOARD.getDefaultValueForCell()) {
-
-                BOARD.AN_ARRAY_OF_CELLS[COORDINATE_X][COORDINATE_Y] = FIGURE;
-
-                return true;
+                }
             }
         }
 
@@ -41,13 +37,21 @@ public class Human {
         return false;
     }
 
-    public void startGame() {
+    public static void startGame() {
 
         BOARD.showBoard();
 
         move(BOARD.getCoordinateX(), BOARD.getCoordinateY());
 
-        BOARD.showBoard();
+        if (!CONTROLLER_GAME.checkWin(FIGURE)) {
+
+          if (!CONTROLLER_GAME.checkDraw()) {
+
+            Bot.startBotGame();
+
+          }
+
+        }
     }
 
 }
