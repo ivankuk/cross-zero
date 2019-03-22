@@ -9,11 +9,27 @@ public class Board {
 
   private final int MAX_SIZE = 3;
 
-  private final char DEFAULT_VALUE_FOR_CELL = '*';
+  private final Figure DEFAULT_VALUE_FOR_CELL = new Figure();
 
   public final char[][] AN_ARRAY_OF_CELLS = new char[MAX_SIZE][MAX_SIZE];
 
   public final String ERROR =  "Такая клетка не доступна для для хода. Поторите попытку";
+
+  public void showWin(final Figure FIGURE_WIN) {
+
+    showBoard();
+
+    System.out.println("Выиграла фигура " + FIGURE_WIN);
+
+  }
+
+  public void showDraw() {
+
+    showBoard();
+
+    System.out.println("Ничья");
+
+  }
 
   public void initCells() {
 
@@ -73,9 +89,16 @@ public class Board {
 
   }
 
-  public char getDefaultValueForCell() {
+  public Figure getDefaultValueForCell() {
 
     return DEFAULT_VALUE_FOR_CELL;
 
   }
+
+  public void setFigure(final int COORDINATE_X, final int COORDINATE_Y, final Figure FIGURE) {
+
+    AN_ARRAY_OF_CELLS[COORDINATE_X][COORDINATE_Y] = FIGURE;
+
+  }
+
 }
