@@ -3,6 +3,8 @@ import ru.vanya.view.board.Board;
 
 public class ControllerGame {
 
+  private final Figure DEFAULT_VALUE_FOR_CELL = new Figure();
+
   private final Board BOARD = new Board();
 
   private final int MIN_COORDINATE = 0;
@@ -11,7 +13,7 @@ public class ControllerGame {
 
   public boolean checkCoordinate(final int COORDINATE) {
 
-    if (COORDINATE >= MIN_COORDINATE & COORDINATE <= MAX_COORDINATE) return true;
+    if (COORDINATE > MIN_COORDINATE & COORDINATE < MAX_COORDINATE) return true;
 
     return false;
 
@@ -19,15 +21,17 @@ public class ControllerGame {
 
   public boolean cellCheck(final int COORDINATE_X, final int COORDINATE_Y) {
 
-    if (BOARD.AN_ARRAY_OF_CELLS[COORDINATE_X][COORDINATE_Y] == BOARD.getDefaultValueForCell()) return true;
+    if (BOARD.AN_ARRAY_OF_CELLS[COORDINATE_X][COORDINATE_Y] == DEFAULT_VALUE_FOR_CELL) return true;
 
     return false;
 
   }
 
-  public boolean checkWin(final Figure FIGURE) {
+  public boolean checkWin(final char PLAY_FIGURE) {
 
-    for (int w = MIN_COORDINATE; w <= MAX_COORDINATE; w++) {
+    final Figure FIGURE = new Figure(PLAY_FIGURE);
+
+    for (int w = MIN_COORDINATE; w < MAX_COORDINATE; w++) {
 
       if (BOARD.AN_ARRAY_OF_CELLS[w][0] == FIGURE | BOARD.AN_ARRAY_OF_CELLS[0][w] == FIGURE | BOARD.AN_ARRAY_OF_CELLS[w][1] == FIGURE | BOARD.AN_ARRAY_OF_CELLS[1][w] == FIGURE | BOARD.AN_ARRAY_OF_CELLS[w][2] == FIGURE | BOARD.AN_ARRAY_OF_CELLS[2][w] == FIGURE) {
 
@@ -65,7 +69,7 @@ public class ControllerGame {
 
       for (int r = MIN_COORDINATE; r <= MAX_COORDINATE; r++) {
 
-        if (BOARD.AN_ARRAY_OF_CELLS[d][r] != BOARD.getDefaultValueForCell()) {
+        if (BOARD.AN_ARRAY_OF_CELLS[d][r] != DEFAULT_VALUE_FOR_CELL) {
 
           BOARD.showDraw();
 
@@ -82,3 +86,4 @@ public class ControllerGame {
   }
 
 }
+
